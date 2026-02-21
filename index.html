@@ -776,6 +776,258 @@
     background: var(--border);
   }
 
+  /* ── MEETINGS ── */
+  .meetings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .meeting-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .meeting-card:hover {
+    border-color: var(--gold);
+  }
+
+  .meeting-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 30px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .meeting-header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .meeting-date-badge {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 64px;
+  }
+
+  .meeting-date-badge .mdb-day {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .meeting-date-badge .mdb-month {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .meeting-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--cream);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .meeting-subtitle {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .meeting-toggle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .meeting-card.open .meeting-toggle {
+    transform: rotate(45deg);
+    color: var(--gold);
+  }
+
+  .meeting-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .meeting-card.open .meeting-body {
+    max-height: 5000px;
+  }
+
+  .meeting-body-inner {
+    padding: 0 30px 32px 30px;
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+  }
+
+  .meeting-category {
+    margin-bottom: 32px;
+  }
+
+  .meeting-category:last-child {
+    margin-bottom: 0;
+  }
+
+  .meeting-cat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .meeting-cat-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .meeting-cat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .meeting-cat-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .meeting-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 40px;
+  }
+
+  .meeting-point {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+    position: relative;
+    padding-left: 16px;
+  }
+
+  .meeting-point::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    background: var(--muted);
+  }
+
+  .meeting-point.critical::before {
+    background: var(--red);
+  }
+
+  .meeting-point.action::before {
+    background: var(--gold);
+  }
+
+  .meeting-point.info::before {
+    background: var(--cream-dim);
+  }
+
+  .meeting-point strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  .meeting-point .point-tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    margin-left: 8px;
+    border: 1px solid;
+    vertical-align: middle;
+  }
+
+  .point-tag.tag-deadline { color: var(--red); border-color: var(--red); }
+  .point-tag.tag-decision { color: var(--green); border-color: var(--green); }
+  .point-tag.tag-action { color: var(--gold); border-color: var(--gold); }
+  .point-tag.tag-info { color: var(--cream-dim); border-color: var(--cream-dim); }
+
+  .meeting-takeaways {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+
+  .meeting-takeaways-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .takeaway-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .takeaway-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .takeaway-bullet {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     nav { padding: 0 20px; }
@@ -785,6 +1037,11 @@
     .budget-summary { grid-template-columns: 1fr; }
     .revenue-box { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
+    .meeting-header { padding: 18px 20px; flex-wrap: wrap; gap: 12px; }
+    .meeting-header-left { gap: 14px; }
+    .meeting-body-inner { padding: 0 20px 24px 20px; padding-top: 24px; }
+    .meeting-points { padding-left: 20px; }
+    .meeting-title { font-size: 20px; }
   }
 </style>
 </head>
@@ -801,6 +1058,7 @@
     <li><a href="#merch">Merchandising</a></li>
     <li><a href="#2026">2026 Strategy</a></li>
     <li><a href="#cartaz">Cartaz</a></li>
+    <li><a href="#reunioes">Reuniões</a></li>
   </ul>
   <div class="badge">Internal — 2026</div>
 </nav>
@@ -1506,6 +1764,172 @@
     <div style="display:flex;align-items:center;gap:10px;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">
       <span style="display:inline-block;width:10px;height:10px;background:var(--muted);"></span>A Confirmar
     </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- REUNIÕES -->
+<section id="reunioes">
+  <div class="section-header">
+    <div>
+      <p class="section-label">06 — Reuniões</p>
+      <h2 class="section-title">Atas &amp; <span style="color:var(--gold);">Decisões</span></h2>
+    </div>
+    <div style="text-align:right;">
+      <p style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.1em;color:var(--muted);">Registo de todas as reuniões da equipa</p>
+    </div>
+  </div>
+
+  <div class="meetings-list">
+
+    <!-- MEETING: 20 Fev 2026 -->
+    <div class="meeting-card open">
+      <div class="meeting-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="meeting-header-left">
+          <div class="meeting-date-badge">
+            <div class="mdb-day">20</div>
+            <div class="mdb-month">Fev 2026</div>
+          </div>
+          <div>
+            <div class="meeting-title">Reunião de Marketing</div>
+            <div class="meeting-subtitle">Kick-off de planeamento 2026 · Equipa completa</div>
+          </div>
+        </div>
+        <div class="meeting-toggle">+</div>
+      </div>
+
+      <div class="meeting-body">
+        <div class="meeting-body-inner">
+
+          <!-- Prazos & Datas Críticas -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128680;</div>
+              <div class="meeting-cat-label">Prazos &amp; Datas Críticas</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point critical"><strong>Plano de marketing:</strong> versão sólida pronta até <strong>7 de março</strong> para apresentação à equipa de design <span class="point-tag tag-deadline">Prazo</span></li>
+              <li class="meeting-point critical"><strong>Primeiro post nas redes:</strong> meta para <strong>14/15 de março</strong> — começar a publicar mais cedo do que no ano passado <span class="point-tag tag-deadline">Prazo</span></li>
+              <li class="meeting-point action"><strong>Save the date:</strong> provisoriamente a 27 de abril — deverá ser antecipado <span class="point-tag tag-action">Ação</span></li>
+              <li class="meeting-point action"><strong>Concurso de restauração:</strong> a lançar em breve, por volta de março <span class="point-tag tag-action">Ação</span></li>
+            </ul>
+          </div>
+
+          <!-- Equipa & Recursos -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128101;</div>
+              <div class="meeting-cat-label">Equipa &amp; Recursos</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point info"><strong>Equipa atual:</strong> 14 pessoas no total</li>
+              <li class="meeting-point action"><strong>Recrutamento:</strong> prioridade em recrutar 2 novos membros de marketing com foco em influencers <span class="point-tag tag-action">Ação</span></li>
+              <li class="meeting-point info"><strong>Ferramenta de planeamento:</strong> migração para o <strong>Gira</strong> para gestão de fluxo de trabalho com a equipa de design <span class="point-tag tag-info">Info</span></li>
+            </ul>
+          </div>
+
+          <!-- Orçamento -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128176;</div>
+              <div class="meeting-cat-label">Orçamento</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point info"><strong>Publicidade online:</strong> €1.500</li>
+              <li class="meeting-point info"><strong>Materiais físicos:</strong> €500</li>
+              <li class="meeting-point info"><strong>Serviços (maioritariamente fotografia):</strong> €2.000</li>
+              <li class="meeting-point info"><strong>Influencers:</strong> €1.000</li>
+              <li class="meeting-point info"><strong>Jantar de equipa:</strong> €300</li>
+            </ul>
+          </div>
+
+          <!-- Contexto & Logística -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#127795;</div>
+              <div class="meeting-cat-label">Contexto &amp; Logística</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point critical"><strong>Estado do parque:</strong> ~80–90% das árvores destruídas pela tempestade — o evento ficará muito exposto ao sol, daí a prioridade de chapéus/bonés no merch <span class="point-tag tag-info">Contexto</span></li>
+              <li class="meeting-point action"><strong>Identificação de zonas:</strong> criar marcadores visuais por zona para facilitar a navegação durante o festival — redigir proposta e enviar ao Fábio <span class="point-tag tag-action">Ação</span></li>
+              <li class="meeting-point action"><strong>Briefings de atividades:</strong> pedir descrição curta e longa a cada atividade; incluir redes sociais; talks precisam de tema/tópico claro <span class="point-tag tag-action">Ação</span></li>
+            </ul>
+          </div>
+
+          <!-- Merchandising -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128085;</div>
+              <div class="meeting-cat-label">Merchandising</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point action"><strong>Design da t-shirt:</strong> via concurso aberto — aprovado <span class="point-tag tag-decision">Decisão</span></li>
+              <li class="meeting-point action"><strong>Artigos perenes:</strong> meias, pinos e chapéus devem ser agnósticos do ano (sem edição) para permitir vendas repetidas <span class="point-tag tag-decision">Decisão</span></li>
+              <li class="meeting-point action"><strong>Tatuagens temporárias:</strong> precisam de designs mais apelativos e variados <span class="point-tag tag-action">Ação</span></li>
+              <li class="meeting-point critical"><strong>Registo de vendas:</strong> necessário melhor registo de vendas de merch — atualmente misturado com receita do bar <span class="point-tag tag-action">Ação</span></li>
+            </ul>
+          </div>
+
+          <!-- Estratégia de Influencers -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128242;</div>
+              <div class="meeting-cat-label">Estratégia de Influencers</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point action"><strong>Foco em micro-influencers locais:</strong> 5k–10k seguidores para reduzir custos de deslocação e alojamento <span class="point-tag tag-decision">Decisão</span></li>
+              <li class="meeting-point action"><strong>Limpeza de contactos:</strong> cortar contactos sem resposta <span class="point-tag tag-action">Ação</span></li>
+            </ul>
+          </div>
+
+          <!-- Bilhética -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#127915;</div>
+              <div class="meeting-cat-label">Bilhética &amp; Fases</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point critical"><strong>Sistema atual não cria urgência:</strong> proposta de limitar bilhetes por fase (ex: 150 / 200 / restantes) para esgotar fases e gerar urgência <span class="point-tag tag-decision">Decisão</span></li>
+              <li class="meeting-point info"><strong>Dados do ano passado:</strong> 459 / 381 / 503 bilhetes vendidos por fase <span class="point-tag tag-info">Referência</span></li>
+            </ul>
+          </div>
+
+          <!-- Calendário de Conteúdos -->
+          <div class="meeting-category">
+            <div class="meeting-cat-title">
+              <div class="meeting-cat-icon">&#128197;</div>
+              <div class="meeting-cat-label">Calendário de Conteúdos</div>
+            </div>
+            <ul class="meeting-points">
+              <li class="meeting-point action"><strong>Posts obrigatórios mapeados:</strong> save the date, cartaz, atividades, voluntariado, etc. <span class="point-tag tag-action">Ação</span></li>
+              <li class="meeting-point critical"><strong>Objetivo:</strong> começar a publicar mais cedo do que no ano passado — meta: 14/15 de março para o primeiro post <span class="point-tag tag-deadline">Prazo</span></li>
+            </ul>
+          </div>
+
+          <!-- Pontos a Reter -->
+          <div class="meeting-takeaways">
+            <div class="meeting-takeaways-title">&#9888;&#65039; Pontos a Reter</div>
+            <div class="takeaway-item">
+              <span class="takeaway-bullet">01</span>
+              <span>A 1.a/2.a fase de bilhetes deve ter <strong>limite duro</strong> de bilhetes — criar urgência real</span>
+            </div>
+            <div class="takeaway-item">
+              <span class="takeaway-bullet">02</span>
+              <span><strong>Apresentação ao design a 7 de março</strong> — plano tem de estar fechado</span>
+            </div>
+            <div class="takeaway-item">
+              <span class="takeaway-bullet">03</span>
+              <span>Primeiro post nas redes no dia <strong>14/15 de março</strong> — não adiar</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Future meetings will be added here -->
+
   </div>
 </section>
 
