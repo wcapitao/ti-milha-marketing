@@ -253,6 +253,7 @@ footer p {
   letter-spacing: 0.12em;
   color: var(--muted);
   text-transform: uppercase;
+  display: none;
 }
 
 /* ── DIVIDER ── */
