@@ -9,21 +9,74 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <style>
-  /* ── CARTAZ ── */
-  .day-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 30px; }
-  .day-label { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }
-  .band-list { display: flex; flex-direction: column; gap: 12px; }
-  .band-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-  .band-row:last-child { padding-bottom: 0; border-bottom: none; }
-  .band-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; color: var(--cream); text-transform: uppercase; letter-spacing: 0.03em; }
-  .status-badge { font-family: 'Courier Prime', monospace; font-size: 9px; letter-spacing: 0.1em; padding: 3px 8px; border: 1px solid; text-transform: uppercase; white-space: nowrap; }
-  .status-confirmed { color: #4A8C5C; border-color: #4A8C5C; }
-  .status-negotiating { color: var(--gold); border-color: var(--gold); }
-  .status-tbc { color: var(--muted); border-color: var(--muted); }
-  .cartaz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px; }
-  .cartaz-legend { display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
-  .cartaz-legend-item { display: flex; align-items: center; gap: 10px; font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-  .cartaz-legend-dot { display: inline-block; width: 10px; height: 10px; }
+.day-card{background:var(--surface);border:1px solid var(--border);padding:28px 30px}
+.day-label{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:20px}
+.day-status{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;padding:6px 12px;display:inline-block}
+.day-status-confirmed{background:rgba(74,140,92,.15);color:var(--green);border:1px solid var(--green)}
+.day-status-negotiating{background:rgba(200,169,106,.15);color:var(--gold);border:1px solid var(--gold)}
+.band-list{display:flex;flex-direction:column;gap:12px}
+.band-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.band-row:last-child{padding-bottom:0;border-bottom:none}
+.band-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:.03em}
+.band-stage{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.1em;padding:3px 8px;text-transform:uppercase;white-space:nowrap}
+.stage-principal{color:var(--gold);border:1px solid var(--gold)}
+.stage-secundario{color:var(--cream-dim);border:1px solid var(--border)}
+.stage-campismo{color:var(--green);border:1px solid var(--green)}
+.status-badge{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.1em;padding:3px 8px;border:1px solid;text-transform:uppercase;white-space:nowrap}
+.status-confirmed{color:#4A8C5C;border-color:#4A8C5C}
+.status-negotiating{color:var(--gold);border-color:var(--gold)}
+.cartaz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px}
+.cartaz-legend{display:flex;gap:24px;margin-top:32px;flex-wrap:wrap}
+.cartaz-legend-item{display:flex;align-items:center;gap:10px;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cartaz-legend-dot{display:inline-block;width:10px;height:10px}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;margin-top:16px}
+.data-table th{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap}
+.data-table th:hover{color:var(--cream)}
+.data-table th.sorted-asc::after{content:' ▲';color:var(--gold)}
+.data-table th.sorted-desc::after{content:' ▼';color:var(--gold)}
+.data-table td{font-family:'Barlow',sans-serif;font-size:14px;color:var(--text);padding:10px 12px;border-bottom:1px solid var(--border)}
+.data-table tr:hover td{background:var(--card)}
+.data-table .artist-cell{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--cream);text-transform:uppercase}
+.data-table .rank-cell{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:var(--border);width:50px}
+.data-table .score-cell{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--gold)}
+.data-table .num-cell{font-family:'Courier Prime',monospace;font-size:12px;color:var(--muted);text-align:right}
+.data-table .day-cell{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+/* Section divider */
+.section-divider{width:100%;height:1px;background:var(--border);margin:0}
+
+/* Expandable */
+.expand-trigger{cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 0;border:none;background:none;width:100%}
+.expand-trigger:hover .expand-title{color:var(--cream)}
+.expand-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;transition:color .2s}
+.expand-arrow{color:var(--muted);font-size:12px;transition:transform .2s}
+.expand-content{display:none;padding:0 0 24px;animation:fadeIn .3s}
+.expand-trigger.active .expand-arrow{transform:rotate(180deg);color:var(--gold)}
+.expand-trigger.active .expand-title{color:var(--gold)}
+.expand-trigger.active+.expand-content{display:block}
+
+/* Filter buttons */
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-btn{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{color:var(--gold);border-color:var(--gold)}
+
+/* Method card */
+.method-card{background:var(--surface);border:1px solid var(--border);padding:24px;margin-top:16px}
+.method-formula{font-family:'Courier Prime',monospace;font-size:13px;color:var(--gold);background:var(--bg);padding:16px;border:1px solid var(--border);margin:12px 0;letter-spacing:.04em}
+.method-text{font-size:13px;color:var(--text);line-height:1.7}
+.weight-bar{display:flex;gap:2px;margin:16px 0}
+.weight-segment{height:32px;display:flex;align-items:center;justify-content:center;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.08em;font-weight:700}
+
+/* Stats row */
+.stats-row{display:flex;gap:2px;margin-bottom:40px}
+.stat-box{flex:1;padding:20px 24px;background:var(--surface);border:1px solid var(--border);text-align:center}
+.stat-box .stat-val{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;color:var(--cream);line-height:1}
+.stat-box .stat-lbl{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.cartaz-grid{grid-template-columns:1fr}.stats-row{flex-direction:column}.data-table{font-size:12px}.filter-bar{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -52,26 +105,41 @@
       <h2 class="section-title">Bandas <span style="color:var(--gold);">2026</span></h2>
     </div>
     <div style="text-align:right;">
-      <p style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.1em;color:var(--muted);">16 → 19 Julho · 4 dias</p>
+      <p style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.1em;color:var(--muted);">16 → 19 Julho · 4 dias · 14 artistas</p>
     </div>
   </div>
 
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val">14</div><div class="stat-lbl">Artistas</div></div>
+    <div class="stat-box"><div class="stat-val">11</div><div class="stat-lbl">Confirmados</div></div>
+    <div class="stat-box"><div class="stat-val">3</div><div class="stat-lbl">Em Negociação</div></div>
+    <div class="stat-box"><div class="stat-val">2</div><div class="stat-lbl">Palcos</div></div>
+  </div>
+
+  <!-- ═══ SECTION 1: LINE-UP POR DIA ═══ -->
   <div class="cartaz-grid">
 
-    <!-- Quinta -->
+    <!-- Quinta 16 -->
     <div class="day-card">
       <div class="day-label">Quinta-feira · 16 Jul</div>
+      <div class="day-status day-status-negotiating">Em Negociação</div>
       <div class="band-list">
         <div class="band-row">
           <span class="band-name">Bed Talk</span>
-          <span class="status-badge status-tbc">A confirmar</span>
+          <span class="status-badge status-negotiating">Em Negociação</span>
+        </div>
+        <div class="band-row">
+          <span class="band-name">Submarines in the Sky</span>
+          <span class="status-badge status-negotiating">Em Negociação</span>
         </div>
       </div>
     </div>
 
-    <!-- Sexta -->
+    <!-- Sexta 17 -->
     <div class="day-card">
       <div class="day-label">Sexta-feira · 17 Jul</div>
+      <div class="day-status day-status-confirmed">Todos Confirmados</div>
       <div class="band-list">
         <div class="band-row">
           <span class="band-name">Paus</span>
@@ -90,19 +158,20 @@
           <span class="status-badge status-confirmed">Confirmado</span>
         </div>
         <div class="band-row">
-          <span class="band-name">La Gazelle Portuguese</span>
-          <span class="status-badge status-negotiating">Em Negociação</span>
+          <span class="band-name">La Gazelle Portuguesa</span>
+          <span class="status-badge status-confirmed">Confirmado</span>
         </div>
       </div>
     </div>
 
-    <!-- Sábado -->
+    <!-- Sábado 18 -->
     <div class="day-card">
       <div class="day-label">Sábado · 18 Jul</div>
+      <div class="day-status day-status-confirmed">Todos Confirmados</div>
       <div class="band-list">
         <div class="band-row">
           <span class="band-name">Kabeaushé</span>
-          <span class="status-badge status-negotiating">Em Negociação</span>
+          <span class="status-badge status-confirmed">Confirmado</span>
         </div>
         <div class="band-row">
           <span class="band-name">Violons Barbares</span>
@@ -123,13 +192,14 @@
       </div>
     </div>
 
-    <!-- Domingo -->
+    <!-- Domingo 19 -->
     <div class="day-card">
       <div class="day-label">Domingo · 19 Jul</div>
+      <div class="day-status day-status-negotiating">Parcialmente Confirmado</div>
       <div class="band-list">
         <div class="band-row">
           <span class="band-name">Fala Povo Fala</span>
-          <span class="status-badge status-negotiating">Em Negociação</span>
+          <span class="status-badge status-confirmed">Confirmado</span>
         </div>
         <div class="band-row">
           <span class="band-name">DJ Humilde + DJ Phill</span>
@@ -140,24 +210,199 @@
 
   </div>
 
-  <!-- Legend -->
   <div class="cartaz-legend">
-    <div class="cartaz-legend-item">
-      <span class="cartaz-legend-dot" style="background:#4A8C5C;"></span>Confirmado
-    </div>
-    <div class="cartaz-legend-item">
-      <span class="cartaz-legend-dot" style="background:var(--gold);"></span>Em Negociação
-    </div>
-    <div class="cartaz-legend-item">
-      <span class="cartaz-legend-dot" style="background:var(--muted);"></span>A Confirmar
-    </div>
+    <div class="cartaz-legend-item"><span class="cartaz-legend-dot" style="background:#4A8C5C;"></span>Confirmado</div>
+    <div class="cartaz-legend-item"><span class="cartaz-legend-dot" style="background:var(--gold);"></span>Em Negociação</div>
   </div>
 </section>
 
+<div class="section-divider"></div>
+
+<!-- ═══ SECTION 2: ORDEM DE ATUAÇÃO ═══ -->
+<section id="ordem-atuacao">
+  <div class="section-header">
+    <div>
+      <p class="section-label">Programação</p>
+      <h2 class="section-title">Ordem de <span style="color:var(--gold);">Atuação</span></h2>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;">Ordem em que os artistas atuam em cada dia e em que palco. Filtra por palco para ver apenas os artistas de cada espaço.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterStage('all')">Todos</button>
+    <button class="filter-btn" onclick="filterStage('Principal')">Palco Principal</button>
+    <button class="filter-btn" onclick="filterStage('Secundário')">Palco Secundário</button>
+    <button class="filter-btn" onclick="filterStage('Campismo')">Campismo</button>
+  </div>
+
+  <table class="data-table" id="schedule-table">
+    <thead>
+      <tr>
+        <th>Dia</th>
+        <th>Ordem</th>
+        <th>Artista</th>
+        <th>Palco</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Bed Talk</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
+      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Submarines in the Sky</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Los Atleticos</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Mr. Gallini</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Paus</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Pedro da Linha</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">5</td><td class="artist-cell">La Gazelle Portuguesa</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Lisa Sereno</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Idiotheque</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Violons Barbares</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Kabeaushé</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">5</td><td class="artist-cell">Peter Castro</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Fala Povo Fala</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">2</td><td class="artist-cell">DJ Humilde + DJ Phill</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SECTION 3: ORDEM DE IMPORTÂNCIA ═══ -->
+<section id="ordem-importancia">
+  <div class="section-header">
+    <div>
+      <p class="section-label">Para a Equipa de Design</p>
+      <h2 class="section-title">Ordem de <span style="color:var(--gold);">Importância</span></h2>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.6;">Esta é a ordem em que os artistas devem aparecer no cartaz do festival — do maior para o menor destaque. O ranking é baseado na presença digital de cada artista. Clica nos cabeçalhos para ordenar.</p>
+
+  <table class="data-table" id="ranking-table">
+    <thead>
+      <tr>
+        <th data-sort="rank" class="sorted-asc">Rank</th>
+        <th data-sort="artist">Artista</th>
+        <th data-sort="score">Score</th>
+        <th data-sort="instagram">Instagram</th>
+        <th data-sort="spotify">Spotify</th>
+        <th data-sort="youtube">YouTube</th>
+        <th data-sort="tidal">Tidal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rank-cell">1</td><td class="artist-cell">Kabeaushé</td><td class="score-cell">92.43</td><td class="num-cell">11,900</td><td class="num-cell">39,269</td><td class="num-cell">775,143</td><td class="num-cell">580</td></tr>
+      <tr><td class="rank-cell">2</td><td class="artist-cell">Pedro da Linha</td><td class="score-cell">87.06</td><td class="num-cell">10,100</td><td class="num-cell">52,740</td><td class="num-cell">75,506</td><td class="num-cell">140</td></tr>
+      <tr><td class="rank-cell">3</td><td class="artist-cell">Paus</td><td class="score-cell">83.24</td><td class="num-cell">8,800</td><td class="num-cell">2,821</td><td class="num-cell">734,395</td><td class="num-cell">354</td></tr>
+      <tr><td class="rank-cell">4</td><td class="artist-cell">Mr. Gallini</td><td class="score-cell">73.63</td><td class="num-cell">4,300</td><td class="num-cell">3,232</td><td class="num-cell">38,309</td><td class="num-cell">47</td></tr>
+      <tr><td class="rank-cell">5</td><td class="artist-cell">Violons Barbares</td><td class="score-cell">71.79</td><td class="num-cell">955</td><td class="num-cell">1,138</td><td class="num-cell">995,139</td><td class="num-cell">142</td></tr>
+      <tr><td class="rank-cell">6</td><td class="artist-cell">Lisa Sereno</td><td class="score-cell">65.73</td><td class="num-cell">1,341</td><td class="num-cell">2,612</td><td class="num-cell">10,212</td><td class="num-cell">21</td></tr>
+      <tr><td class="rank-cell">7</td><td class="artist-cell">Fala Povo Fala</td><td class="score-cell">47.19</td><td class="num-cell">1,287</td><td class="num-cell">16</td><td class="num-cell">6,150</td><td class="num-cell">1</td></tr>
+      <tr><td class="rank-cell">8</td><td class="artist-cell">Peter Castro</td><td class="score-cell">40.00</td><td class="num-cell">70,900</td><td class="num-cell">0</td><td class="num-cell">0</td><td class="num-cell">0</td></tr>
+      <tr><td class="rank-cell">9</td><td class="artist-cell">Bed Talk</td><td class="score-cell">34.06</td><td class="num-cell">96</td><td class="num-cell">13</td><td class="num-cell">617</td><td class="num-cell">1</td></tr>
+      <tr><td class="rank-cell">10</td><td class="artist-cell">Idiotheque</td><td class="score-cell">31.60</td><td class="num-cell">574</td><td class="num-cell">0</td><td class="num-cell">448</td><td class="num-cell">0</td></tr>
+      <tr><td class="rank-cell">11</td><td class="artist-cell">Submarines in the Sky</td><td class="score-cell">28.47</td><td class="num-cell">292</td><td class="num-cell">18</td><td class="num-cell">0</td><td class="num-cell">0</td></tr>
+      <tr><td class="rank-cell">12</td><td class="artist-cell">DJ Humilde + DJ Phill</td><td class="score-cell">25.02</td><td class="num-cell">1,082</td><td class="num-cell">0</td><td class="num-cell">0</td><td class="num-cell">0</td></tr>
+      <tr><td class="rank-cell">13</td><td class="artist-cell">La Gazelle Portuguesa</td><td class="score-cell">22.81</td><td class="num-cell">583</td><td class="num-cell">0</td><td class="num-cell">0</td><td class="num-cell">0</td></tr>
+      <tr><td class="rank-cell">14</td><td class="artist-cell">Los Atleticos</td><td class="score-cell">19.93</td><td class="num-cell">260</td><td class="num-cell">0</td><td class="num-cell">0</td><td class="num-cell">0</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Expandable methodology -->
+  <div style="margin-top:32px;">
+    <div class="expand-trigger" onclick="this.classList.toggle('active')">
+      <span class="expand-arrow">▼</span>
+      <span class="expand-title">Como funciona o ranking?</span>
+    </div>
+    <div class="expand-content">
+      <div class="method-card">
+        <div class="method-text">
+          O score de cada artista é calculado com base na sua presença digital em 4 plataformas, cada uma com um peso diferente. Os valores em bruto (seguidores, ouvintes mensais, visualizações) são normalizados numa escala de 0 a 100, e depois ponderados:
+        </div>
+
+        <div class="weight-bar">
+          <div class="weight-segment" style="flex:4;background:var(--gold);color:var(--bg);">Instagram 40%</div>
+          <div class="weight-segment" style="flex:3;background:rgba(200,169,106,.6);color:var(--bg);">Spotify 30%</div>
+          <div class="weight-segment" style="flex:2;background:rgba(200,169,106,.35);color:var(--cream);">YouTube 20%</div>
+          <div class="weight-segment" style="flex:1;background:rgba(200,169,106,.15);color:var(--cream);">Tidal 10%</div>
+        </div>
+
+        <div class="method-formula">
+          SCORE = (Instagram% × 40 + Spotify% × 30 + YouTube% × 20 + Tidal% × 10) / 100
+        </div>
+
+        <div class="method-text" style="margin-top:16px;">
+          <strong style="color:var(--cream);">O que significa cada %:</strong><br>
+          Cada métrica é normalizada — o artista com o valor mais alto em cada plataforma recebe 100%, e os restantes são proporcionais. Por exemplo, se o artista com mais seguidores no Instagram tem 70,900 (Peter Castro), então um artista com 11,900 seguidores terá (11900/70900)×100 = 16.8%.<br><br>
+          <strong style="color:var(--cream);">Porque estes pesos?</strong><br>
+          O Instagram tem o maior peso (40%) porque é o principal canal de comunicação do festival. O Spotify (30%) reflete a popularidade musical. O YouTube (20%) e o Tidal (10%) complementam a análise.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <p>Ti Milha 2026 — Uso Interno Exclusivo &nbsp;·&nbsp; Equipa de Marketing</p>
   <p>Confidencial — Não Distribuir</p>
 </footer>
+
+<script>
+/* Stage filter */
+function filterStage(stage) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  event.currentTarget.classList.add('active');
+  document.querySelectorAll('#schedule-table tbody tr').forEach(function(r) {
+    r.style.display = (stage === 'all' || r.dataset.stage === stage) ? '' : 'none';
+  });
+}
+
+/* Sortable ranking table */
+(function() {
+  var table = document.getElementById('ranking-table');
+  if (!table) return;
+  var headers = table.querySelectorAll('th[data-sort]');
+  var tbody = table.querySelector('tbody');
+  var currentSort = 'rank';
+  var currentDir = 'asc';
+
+  var parseNum = function(s) {
+    return parseFloat(s.replace(/,/g, '')) || 0;
+  };
+
+  headers.forEach(function(th) {
+    th.addEventListener('click', function() {
+      var col = th.dataset.sort;
+      if (currentSort === col) {
+        currentDir = currentDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort = col;
+        currentDir = col === 'artist' ? 'asc' : 'desc';
+        if (col === 'rank') currentDir = 'asc';
+      }
+
+      headers.forEach(function(h){h.classList.remove('sorted-asc','sorted-desc')});
+      th.classList.add('sorted-' + currentDir);
+
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      var colMap = {rank:0, artist:1, score:2, instagram:3, spotify:4, youtube:5, tidal:6};
+      var idx = colMap[col];
+
+      rows.sort(function(a, b) {
+        var aVal = a.cells[idx].textContent.trim();
+        var bVal = b.cells[idx].textContent.trim();
+        var result;
+        if (col === 'artist') {
+          result = aVal.localeCompare(bVal);
+        } else {
+          result = parseNum(aVal) - parseNum(bVal);
+        }
+        return currentDir === 'asc' ? result : -result;
+      });
+
+      rows.forEach(function(r) { tbody.appendChild(r); });
+    });
+  });
+})();
+</script>
 </body>
 </html>
