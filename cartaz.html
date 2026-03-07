@@ -218,55 +218,7 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══ SECTION 2: ORDEM DE ATUAÇÃO ═══ -->
-<section id="ordem-atuacao">
-  <div class="section-header">
-    <div>
-      <p class="section-label">Programação</p>
-      <h2 class="section-title">Ordem de <span style="color:var(--gold);">Atuação</span></h2>
-    </div>
-  </div>
-
-  <p style="font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;">Ordem em que os artistas atuam em cada dia e em que palco. Filtra por palco para ver apenas os artistas de cada espaço.</p>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterStage('all')">Todos</button>
-    <button class="filter-btn" onclick="filterStage('Principal')">Palco Principal</button>
-    <button class="filter-btn" onclick="filterStage('Secundário')">Palco Secundário</button>
-    <button class="filter-btn" onclick="filterStage('Campismo')">Campismo</button>
-  </div>
-
-  <table class="data-table" id="schedule-table">
-    <thead>
-      <tr>
-        <th>Dia</th>
-        <th>Ordem</th>
-        <th>Artista</th>
-        <th>Palco</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Bed Talk</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
-      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Submarines in the Sky</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Los Atleticos</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Mr. Gallini</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Paus</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Pedro da Linha</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">5</td><td class="artist-cell">La Gazelle Portuguesa</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Lisa Sereno</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Idiotheque</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Violons Barbares</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Kabeaushé</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">5</td><td class="artist-cell">Peter Castro</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Fala Povo Fala</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">2</td><td class="artist-cell">DJ Humilde + DJ Phill</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
-    </tbody>
-  </table>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ═══ SECTION 3: ORDEM DE IMPORTÂNCIA ═══ -->
+<!-- ═══ SECTION 2: ORDEM DE IMPORTÂNCIA ═══ -->
 <section id="ordem-importancia">
   <div class="section-header">
     <div>
@@ -379,6 +331,54 @@
       </div>
     </div>
   </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SECTION 3: ORDEM DE ATUAÇÃO ═══ -->
+<section id="ordem-atuacao">
+  <div class="section-header">
+    <div>
+      <p class="section-label">Programação</p>
+      <h2 class="section-title">Ordem de <span style="color:var(--gold);">Atuação</span></h2>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;">Ordem em que os artistas atuam em cada dia e em que palco. Filtra por palco para ver apenas os artistas de cada espaço.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterStage('all')">Todos</button>
+    <button class="filter-btn" onclick="filterStage('Principal')">Palco Principal</button>
+    <button class="filter-btn" onclick="filterStage('Secundário')">Palco Secundário</button>
+    <button class="filter-btn" onclick="filterStage('Campismo')">Campismo</button>
+  </div>
+
+  <table class="data-table" id="schedule-table">
+    <thead>
+      <tr>
+        <th>Dia</th>
+        <th>Ordem</th>
+        <th>Artista</th>
+        <th>Palco</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Bed Talk</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
+      <tr data-stage="Campismo"><td class="day-cell">Quinta, 16 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Submarines in the Sky</td><td><span class="band-stage stage-campismo">Campismo</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Los Atleticos</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Mr. Gallini</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Paus</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Pedro da Linha</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sexta, 17 Jul</td><td style="text-align:center">5</td><td class="artist-cell">La Gazelle Portuguesa</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Lisa Sereno</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">2</td><td class="artist-cell">Idiotheque</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">3</td><td class="artist-cell">Violons Barbares</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Principal"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">4</td><td class="artist-cell">Kabeaushé</td><td><span class="band-stage stage-principal">Principal</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Sábado, 18 Jul</td><td style="text-align:center">5</td><td class="artist-cell">Peter Castro</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">1</td><td class="artist-cell">Fala Povo Fala</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+      <tr data-stage="Secundário"><td class="day-cell">Domingo, 19 Jul</td><td style="text-align:center">2</td><td class="artist-cell">DJ Humilde + DJ Phill</td><td><span class="band-stage stage-secundario">Secundário</span></td></tr>
+    </tbody>
+  </table>
 </section>
 
 <footer>
