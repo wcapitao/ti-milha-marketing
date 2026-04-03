@@ -97,7 +97,7 @@
 .cal-day-num{font-family:'Courier Prime',monospace;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.06em}
 .cal-day.cal-today{border-color:var(--gold)}
 .cal-day.cal-today .cal-day-num{color:var(--gold);font-weight:700}
-.cal-event{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;padding:3px 6px;margin-bottom:2px;border-radius:2px;line-height:1.3;cursor:default;position:relative}
+.cal-event{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;padding:3px 6px;margin-bottom:2px;border-radius:2px;line-height:1.3;cursor:pointer;position:relative}
 .cal-event.evt-overdue{background:rgba(196,55,58,.2);color:var(--red);border-left:2px solid var(--red)}
 .cal-event.evt-upcoming{background:rgba(200,169,106,.2);color:var(--gold);border-left:2px solid var(--gold)}
 .cal-event.evt-future{background:rgba(74,140,92,.15);color:var(--green);border-left:2px solid var(--green)}
@@ -109,6 +109,31 @@
 .cal-tbc-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
 .cal-tbc-list{display:flex;flex-wrap:wrap;gap:8px}
 .cal-tbc-item{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;padding:6px 14px;background:rgba(196,55,58,.1);color:var(--red);border:1px solid rgba(196,55,58,.3);border-radius:2px}
+.cal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+.cal-overlay.visible{display:flex}
+.cal-popup{background:var(--card);border:1px solid var(--border);max-width:440px;width:90%;position:relative;animation:calPopIn .15s ease-out}
+@keyframes calPopIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.cal-popup-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.cal-popup-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:.03em;line-height:1.3}
+.cal-popup-close{background:none;border:1px solid var(--border);color:var(--muted);font-size:18px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-family:'Courier Prime',monospace}
+.cal-popup-close:hover{color:var(--cream);border-color:var(--cream)}
+.cal-popup-body{padding:24px}
+.cal-popup-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cal-popup-row:last-child{margin-bottom:0}
+.cal-popup-label{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:90px}
+.cal-popup-value{font-family:'Barlow',sans-serif;font-size:14px;color:var(--cream)}
+.cal-popup-status{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:2px}
+.cal-popup-status.st-overdue{background:rgba(196,55,58,.2);color:var(--red);border:1px solid var(--red)}
+.cal-popup-status.st-upcoming{background:rgba(200,169,106,.2);color:var(--gold);border:1px solid var(--gold)}
+.cal-popup-status.st-future{background:rgba(74,140,92,.15);color:var(--green);border:1px solid var(--green)}
+.cal-popup-status.st-tbc{background:rgba(90,86,80,.2);color:var(--muted);border:1px solid var(--muted)}
+.cal-popup-labels{display:flex;gap:6px;flex-wrap:wrap}
+.cal-popup-lbl{font-family:'Courier Prime',monospace;font-size:10px;padding:3px 8px;letter-spacing:.08em;text-transform:uppercase;border-radius:2px}
+.cal-popup-lbl.pl-feed{background:rgba(200,169,106,.2);color:var(--gold)}
+.cal-popup-lbl.pl-stories{background:rgba(74,140,92,.2);color:var(--green)}
+.cal-popup-footer{padding:16px 24px;border-top:1px solid var(--border)}
+.cal-popup-trello{display:inline-block;font-family:'Courier Prime',monospace;font-size:11px;color:var(--gold);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--gold);padding:8px 16px;transition:all .2s;width:100%;text-align:center;box-sizing:border-box}
+.cal-popup-trello:hover{background:var(--gold);color:var(--bg)}
 @media(max-width:768px){.cal-grid{grid-template-columns:repeat(7,1fr)}.cal-day{min-height:60px;padding:4px}.cal-event{font-size:10px;padding:2px 4px}.cal-nav-title{font-size:20px}}
 </style>
 </head>
@@ -2186,6 +2211,17 @@ Na imagem tem as opções de impressão… Era fixe que fosse **2 lados total**<
 
   </div>
 
+  <div class="cal-overlay" id="cal-overlay" onclick="if(event.target===this)closePopup()">
+    <div class="cal-popup">
+      <div class="cal-popup-header">
+        <div class="cal-popup-title" id="popup-title"></div>
+        <button class="cal-popup-close" onclick="closePopup()">&times;</button>
+      </div>
+      <div class="cal-popup-body" id="popup-body"></div>
+      <div class="cal-popup-footer" id="popup-footer"></div>
+    </div>
+  </div>
+
   <div id="calendario-posts" class="board-content">
     <div class="cal-legend">
       <div class="cal-legend-item"><div class="cal-legend-dot dot-overdue"></div>Atrasado</div>
@@ -2217,35 +2253,39 @@ function toggleCard(el) {
 
 (function(){
   var postPlanTasks = [
-    {name:'Save the date',date:'2026-03-21',labels:['feed']},
-    {name:'Inscrições restauração',date:'2026-03-25',labels:[]},
-    {name:'Post relacional (pré) | Vídeo Recap',date:'2026-03-26',labels:['feed']},
-    {name:'Lançamento cartaz',date:'2026-04-09',labels:['feed','stories']},
-    {name:'Bandas sexta-feiras',date:'2026-04-16',labels:[]},
-    {name:'Atividades sexta-feira',date:'2026-04-18',labels:[]},
-    {name:'Bandas sábado',date:'2026-04-20',labels:[]},
-    {name:'Atividades sábado',date:'2026-04-22',labels:[]},
-    {name:'Bandas domingo',date:'2026-04-25',labels:[]},
-    {name:'Atividades domingo',date:'2026-04-27',labels:[]},
-    {name:'Inscrições voluntariado',date:'2026-05-09',labels:[]},
-    {name:'Campismo',date:'2026-05-12',labels:[]},
-    {name:'Artistas residentes',date:'2026-05-19',labels:[]},
-    {name:'Inscrições Feira do Diacho',date:'2026-05-24',labels:[]},
-    {name:'Receção ao campista',date:'2026-06-13',labels:[]},
-    {name:'Inscrições Mega-piquenique',date:'2026-06-16',labels:[]},
-    {name:'Ti Milha Vai à Serra',date:'2026-06-19',labels:[]},
-    {name:'Festival Pet Friendly',date:'2026-06-23',labels:[]},
-    {name:'Cartaz Mov\'ilha',date:'2026-06-25',labels:[]},
-    {name:'Agradecimento patrocionadores',date:'2026-07-05',labels:[]},
-    {name:'Countdown',date:'2026-07-08',labels:[]},
-    {name:'Oferta restauração',date:'2026-07-08',labels:[]},
-    {name:'Informações úteis',date:'2026-07-13',labels:[]},
-    {name:'Agradecimento',date:'2026-07-22',labels:[]},
-    {name:'Fotos festival',date:'2026-07-30',labels:[]},
-    {name:'Vídeo recap',date:'2026-08-06',labels:[]}
+    {name:'Save the date',date:'2026-03-21',labels:['feed'],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b36e87206fffc03a671c'},
+    {name:'Inscrições restauração',date:'2026-03-25',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c54fbcd7de01d847e3f3'},
+    {name:'Post relacional (pré) | Vídeo Recap',date:'2026-03-26',labels:['feed'],activity:'23 Mar 2026',trello:'https://trello.com/c/69c19408d68ab17a6e77e48a'},
+    {name:'Lançamento cartaz',date:'2026-04-09',labels:['feed','stories'],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b4f083648652676ce09c'},
+    {name:'Bandas sexta-feiras',date:'2026-04-16',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b83869f14eac742ba4c1'},
+    {name:'Atividades sexta-feira',date:'2026-04-18',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b9dfb67d7fc9244539ed'},
+    {name:'Bandas sábado',date:'2026-04-20',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b8e211d89dde148845ae'},
+    {name:'Atividades sábado',date:'2026-04-22',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b9e138c17bf8765e093b'},
+    {name:'Bandas domingo',date:'2026-04-25',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b98063abed627f601d7c'},
+    {name:'Atividades domingo',date:'2026-04-27',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b9e3d32e8de9eafc0d0e'},
+    {name:'Inscrições voluntariado',date:'2026-05-09',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0b71c971d04d26d7594ab'},
+    {name:'Campismo',date:'2026-05-12',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0bbd8a59e6d350c72ec6b'},
+    {name:'Artistas residentes',date:'2026-05-19',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0be151842c37a44e14a4f'},
+    {name:'Inscrições Feira do Diacho',date:'2026-05-24',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0ba8dd1f20a7cc6f4cc2f'},
+    {name:'Receção ao campista',date:'2026-06-13',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0be5c1a546a0aa9f72b19'},
+    {name:'Inscrições Mega-piquenique',date:'2026-06-16',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c0e7ca529ff6d283e092'},
+    {name:'Ti Milha Vai à Serra',date:'2026-06-19',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0bf96d20bbcae6c44aa75'},
+    {name:'Festival Pet Friendly',date:'2026-06-23',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0bff51859ee147e46d476'},
+    {name:'Cartaz Mov\'ilha',date:'2026-06-25',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c27ed1903f377a5635d1'},
+    {name:'Agradecimento patrocionadores',date:'2026-07-05',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c118b9d1cdd5b257705b'},
+    {name:'Countdown',date:'2026-07-08',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c36499b0d60301ec109d'},
+    {name:'Oferta restauração',date:'2026-07-08',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c2157343fe7ffb20b6b8'},
+    {name:'Informações úteis',date:'2026-07-13',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c3ad0b566488db7d712c'},
+    {name:'Agradecimento',date:'2026-07-22',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c4ae6fdabf4d47486e66'},
+    {name:'Fotos festival',date:'2026-07-30',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c4e3048ce3bb5f93c697'},
+    {name:'Vídeo recap',date:'2026-08-06',labels:[],activity:'23 Mar 2026',trello:'https://trello.com/c/69a0c5025d1e956faa4efc9f'}
   ];
   var tbcTasks = [
-    'Venda de bilhetes','Tatuava-te no Ti Milha','Programação do festival','Merch','Língua Gestual Portuguesa'
+    {name:'Venda de bilhetes',activity:'26 Fev 2026',trello:'https://trello.com/c/69a0b6973ccc769ad452a1e7'},
+    {name:'Tatuava-te no Ti Milha',activity:'26 Fev 2026',trello:'https://trello.com/c/69a0bbbcff92ce98df1d368c'},
+    {name:'Programação do festival',activity:'26 Fev 2026',trello:'https://trello.com/c/69a0c09b8d443996294b5d88'},
+    {name:'Merch',activity:'26 Fev 2026',trello:'https://trello.com/c/69a0c1e99f4161ae91dcd247'},
+    {name:'Língua Gestual Portuguesa',activity:'26 Fev 2026',trello:'https://trello.com/c/69a0c25ba66acc9fa2fba652'}
   ];
 
   var today = new Date();
@@ -2324,7 +2364,12 @@ function toggleCard(el) {
         tasksByDate[dateKey].forEach(function(task){
           var evtEl = document.createElement('div');
           evtEl.className = 'cal-event evt-' + getStatus(task.date);
-          evtEl.textContent = task.name;
+          evtEl.setAttribute('data-task', JSON.stringify(task));
+          evtEl.onclick = function(e){e.stopPropagation();openPopup(task)};
+
+          var nameSpan = document.createElement('span');
+          nameSpan.textContent = task.name;
+          evtEl.appendChild(nameSpan);
 
           if(task.labels.length > 0){
             var lbls = document.createElement('div');
@@ -2366,13 +2411,70 @@ function toggleCard(el) {
 
   var tbcList = document.createElement('div');
   tbcList.className = 'cal-tbc-list';
-  tbcTasks.forEach(function(name){
+  tbcTasks.forEach(function(task){
     var item = document.createElement('div');
     item.className = 'cal-tbc-item';
-    item.textContent = name;
+    item.textContent = task.name;
+    item.style.cursor = 'pointer';
+    item.onclick = function(){openPopup({name:task.name,date:null,labels:[],activity:task.activity,trello:task.trello})};
     tbcList.appendChild(item);
   });
   tbcSection.appendChild(tbcList);
+
+  // Popup logic
+  var statusLabels = {overdue:'Atrasado',upcoming:'Próximo',future:'Futuro',tbc:'Sem Data'};
+  var monthNamesShort = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+  function formatDate(dateStr){
+    var parts = dateStr.split('-');
+    return parseInt(parts[2],10)+' '+monthNamesShort[parseInt(parts[1],10)-1]+' '+parts[0];
+  }
+
+  window.openPopup = function(task){
+    var overlay = document.getElementById('cal-overlay');
+    var title = document.getElementById('popup-title');
+    var body = document.getElementById('popup-body');
+    var footer = document.getElementById('popup-footer');
+
+    title.textContent = task.name;
+
+    var status = task.date ? getStatus(task.date) : 'tbc';
+    var html = '';
+
+    // Date row
+    html += '<div class="cal-popup-row"><span class="cal-popup-label">Data</span><span class="cal-popup-value">'+(task.date ? formatDate(task.date) : 'A definir')+'</span></div>';
+
+    // Status row
+    html += '<div class="cal-popup-row"><span class="cal-popup-label">Estado</span><span class="cal-popup-status st-'+status+'">'+statusLabels[status]+'</span></div>';
+
+    // Labels row
+    if(task.labels && task.labels.length > 0){
+      html += '<div class="cal-popup-row"><span class="cal-popup-label">Tipo</span><div class="cal-popup-labels">';
+      task.labels.forEach(function(l){
+        html += '<span class="cal-popup-lbl pl-'+l+'">'+(l==='feed'?'Post Feed':'Post Stories')+'</span>';
+      });
+      html += '</div></div>';
+    }
+
+    // Last activity
+    if(task.activity){
+      html += '<div class="cal-popup-row"><span class="cal-popup-label">Atividade</span><span class="cal-popup-value">'+task.activity+'</span></div>';
+    }
+
+    body.innerHTML = html;
+
+    // Trello link
+    footer.innerHTML = task.trello ? '<a href="'+task.trello+'" target="_blank" class="cal-popup-trello">Abrir no Trello &rarr;</a>' : '';
+
+    overlay.classList.add('visible');
+    document.addEventListener('keydown', escHandler);
+  };
+
+  function escHandler(e){if(e.key==='Escape')closePopup()}
+  window.closePopup = function(){
+    document.getElementById('cal-overlay').classList.remove('visible');
+    document.removeEventListener('keydown', escHandler);
+  };
 })();
 </script>
 </body>
