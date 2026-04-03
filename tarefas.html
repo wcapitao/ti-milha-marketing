@@ -75,6 +75,41 @@
 .empty-board p{font-family:'Courier Prime',monospace;font-size:13px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .updated-info{font-family:'Courier Prime',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:right;margin-bottom:24px}
 @media(max-width:768px){.tarefas-wrap{padding:80px 20px 40px}.board-tabs{flex-direction:column}.board-stats{flex-direction:column}.task-grid{grid-template-columns:1fr}.detail-row{flex-direction:column;gap:8px}}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.cal-nav-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:.04em}
+.cal-nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;padding:8px 18px;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:all .2s}
+.cal-nav-btn:hover{color:var(--cream);border-color:var(--cream)}
+.cal-legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.cal-legend-item{display:flex;align-items:center;gap:6px;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cal-legend-dot{width:10px;height:10px;border-radius:2px}
+.cal-legend-dot.dot-overdue{background:var(--red)}
+.cal-legend-dot.dot-upcoming{background:var(--gold)}
+.cal-legend-dot.dot-future{background:var(--green)}
+.cal-legend-dot.dot-tbc{background:var(--muted)}
+.cal-months{display:flex;flex-direction:column;gap:40px}
+.cal-month{background:var(--surface);border:1px solid var(--border);padding:24px}
+.cal-month-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-weekday{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:8px 4px;border-bottom:1px solid var(--border)}
+.cal-day{min-height:80px;padding:8px;background:var(--card);border:1px solid transparent;position:relative;transition:border-color .2s}
+.cal-day:hover{border-color:var(--border)}
+.cal-day.cal-empty{background:transparent;min-height:0}
+.cal-day-num{font-family:'Courier Prime',monospace;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.06em}
+.cal-day.cal-today{border-color:var(--gold)}
+.cal-day.cal-today .cal-day-num{color:var(--gold);font-weight:700}
+.cal-event{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;padding:3px 6px;margin-bottom:2px;border-radius:2px;line-height:1.3;cursor:default;position:relative}
+.cal-event.evt-overdue{background:rgba(196,55,58,.2);color:var(--red);border-left:2px solid var(--red)}
+.cal-event.evt-upcoming{background:rgba(200,169,106,.2);color:var(--gold);border-left:2px solid var(--gold)}
+.cal-event.evt-future{background:rgba(74,140,92,.15);color:var(--green);border-left:2px solid var(--green)}
+.cal-event-labels{display:flex;gap:3px;margin-top:2px}
+.cal-event-label{font-family:'Courier Prime',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;padding:1px 4px;border-radius:1px}
+.cal-event-label.lbl-feed{background:rgba(200,169,106,.15);color:var(--gold)}
+.cal-event-label.lbl-stories{background:rgba(74,140,92,.15);color:var(--green)}
+.cal-tbc-section{margin-top:32px;background:var(--surface);border:1px solid var(--border);padding:24px}
+.cal-tbc-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.cal-tbc-list{display:flex;flex-wrap:wrap;gap:8px}
+.cal-tbc-item{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;padding:6px 14px;background:rgba(196,55,58,.1);color:var(--red);border:1px solid rgba(196,55,58,.3);border-radius:2px}
+@media(max-width:768px){.cal-grid{grid-template-columns:repeat(7,1fr)}.cal-day{min-height:60px;padding:4px}.cal-event{font-size:10px;padding:2px 4px}.cal-nav-title{font-size:20px}}
 </style>
 </head>
 <body>
@@ -110,6 +145,7 @@
     <div class="board-tab active" onclick="showBoard('social-media')">Social Media &amp; Content<span class="tab-count">72 tarefas</span></div>
     <div class="board-tab" onclick="showBoard('design-redes')">Design Redes<span class="tab-count">33 tarefas</span></div>
     <div class="board-tab" onclick="showBoard('design-fisico')">Design Físico<span class="tab-count">1 tarefas</span></div>
+    <div class="board-tab" onclick="showBoard('calendario-posts')">Calendário Post Plan<span class="tab-count">31 posts</span></div>
   </div>
 
   <div id="social-media" class="board-content active">
@@ -2150,6 +2186,17 @@ Na imagem tem as opções de impressão… Era fixe que fosse **2 lados total**<
 
   </div>
 
+  <div id="calendario-posts" class="board-content">
+    <div class="cal-legend">
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-overdue"></div>Atrasado</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-upcoming"></div>Próximo</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-future"></div>Futuro</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-tbc"></div>Sem data</div>
+    </div>
+    <div class="cal-months" id="cal-months-container"></div>
+    <div class="cal-tbc-section" id="cal-tbc-section"></div>
+  </div>
+
 </div>
 
 <footer>
@@ -2167,6 +2214,166 @@ function showBoard(id) {
 function toggleCard(el) {
   el.classList.toggle('expanded');
 }
+
+(function(){
+  var postPlanTasks = [
+    {name:'Save the date',date:'2026-03-21',labels:['feed']},
+    {name:'Inscrições restauração',date:'2026-03-25',labels:[]},
+    {name:'Post relacional (pré) | Vídeo Recap',date:'2026-03-26',labels:['feed']},
+    {name:'Lançamento cartaz',date:'2026-04-09',labels:['feed','stories']},
+    {name:'Bandas sexta-feiras',date:'2026-04-16',labels:[]},
+    {name:'Atividades sexta-feira',date:'2026-04-18',labels:[]},
+    {name:'Bandas sábado',date:'2026-04-20',labels:[]},
+    {name:'Atividades sábado',date:'2026-04-22',labels:[]},
+    {name:'Bandas domingo',date:'2026-04-25',labels:[]},
+    {name:'Atividades domingo',date:'2026-04-27',labels:[]},
+    {name:'Inscrições voluntariado',date:'2026-05-09',labels:[]},
+    {name:'Campismo',date:'2026-05-12',labels:[]},
+    {name:'Artistas residentes',date:'2026-05-19',labels:[]},
+    {name:'Inscrições Feira do Diacho',date:'2026-05-24',labels:[]},
+    {name:'Receção ao campista',date:'2026-06-13',labels:[]},
+    {name:'Inscrições Mega-piquenique',date:'2026-06-16',labels:[]},
+    {name:'Ti Milha Vai à Serra',date:'2026-06-19',labels:[]},
+    {name:'Festival Pet Friendly',date:'2026-06-23',labels:[]},
+    {name:'Cartaz Mov\'ilha',date:'2026-06-25',labels:[]},
+    {name:'Agradecimento patrocionadores',date:'2026-07-05',labels:[]},
+    {name:'Countdown',date:'2026-07-08',labels:[]},
+    {name:'Oferta restauração',date:'2026-07-08',labels:[]},
+    {name:'Informações úteis',date:'2026-07-13',labels:[]},
+    {name:'Agradecimento',date:'2026-07-22',labels:[]},
+    {name:'Fotos festival',date:'2026-07-30',labels:[]},
+    {name:'Vídeo recap',date:'2026-08-06',labels:[]}
+  ];
+  var tbcTasks = [
+    'Venda de bilhetes','Tatuava-te no Ti Milha','Programação do festival','Merch','Língua Gestual Portuguesa'
+  ];
+
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var weekdays = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+  // Group tasks by YYYY-MM-DD
+  var tasksByDate = {};
+  postPlanTasks.forEach(function(t){
+    if(!tasksByDate[t.date]) tasksByDate[t.date]=[];
+    tasksByDate[t.date].push(t);
+  });
+
+  function getStatus(dateStr){
+    var d = new Date(dateStr+'T00:00:00');
+    var diff = (d - today)/(1000*60*60*24);
+    if(diff < 0) return 'overdue';
+    if(diff <= 7) return 'upcoming';
+    return 'future';
+  }
+
+  function buildMonth(year, month){
+    var container = document.createElement('div');
+    container.className = 'cal-month';
+
+    var title = document.createElement('div');
+    title.className = 'cal-month-name';
+    title.textContent = monthNames[month] + ' ' + year;
+    container.appendChild(title);
+
+    var grid = document.createElement('div');
+    grid.className = 'cal-grid';
+
+    // Weekday headers
+    weekdays.forEach(function(wd){
+      var wdEl = document.createElement('div');
+      wdEl.className = 'cal-weekday';
+      wdEl.textContent = wd;
+      grid.appendChild(wdEl);
+    });
+
+    var firstDay = new Date(year, month, 1);
+    // JS: 0=Sun, convert to Mon-based: (day+6)%7
+    var startOffset = (firstDay.getDay() + 6) % 7;
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Empty cells before first day
+    for(var i=0; i<startOffset; i++){
+      var empty = document.createElement('div');
+      empty.className = 'cal-day cal-empty';
+      grid.appendChild(empty);
+    }
+
+    var hasEvents = false;
+    for(var d=1; d<=daysInMonth; d++){
+      var dayEl = document.createElement('div');
+      dayEl.className = 'cal-day';
+
+      var mm = String(month+1).padStart(2,'0');
+      var dd = String(d).padStart(2,'0');
+      var dateKey = year+'-'+mm+'-'+dd;
+      var cellDate = new Date(year, month, d);
+
+      if(cellDate.getTime() === today.getTime()){
+        dayEl.classList.add('cal-today');
+      }
+
+      var numEl = document.createElement('div');
+      numEl.className = 'cal-day-num';
+      numEl.textContent = d;
+      dayEl.appendChild(numEl);
+
+      if(tasksByDate[dateKey]){
+        hasEvents = true;
+        tasksByDate[dateKey].forEach(function(task){
+          var evtEl = document.createElement('div');
+          evtEl.className = 'cal-event evt-' + getStatus(task.date);
+          evtEl.textContent = task.name;
+
+          if(task.labels.length > 0){
+            var lbls = document.createElement('div');
+            lbls.className = 'cal-event-labels';
+            task.labels.forEach(function(l){
+              var lbl = document.createElement('span');
+              lbl.className = 'cal-event-label lbl-' + l;
+              lbl.textContent = l === 'feed' ? 'Feed' : 'Stories';
+              lbls.appendChild(lbl);
+            });
+            evtEl.appendChild(lbls);
+          }
+
+          dayEl.appendChild(evtEl);
+        });
+      }
+
+      grid.appendChild(dayEl);
+    }
+
+    container.appendChild(grid);
+    return hasEvents ? container : null;
+  }
+
+  // Build months March 2026 to August 2026
+  var monthsContainer = document.getElementById('cal-months-container');
+  var months = [[2026,2],[2026,3],[2026,4],[2026,5],[2026,6],[2026,7]];
+  months.forEach(function(ym){
+    var el = buildMonth(ym[0], ym[1]);
+    if(el) monthsContainer.appendChild(el);
+  });
+
+  // Build TBC section
+  var tbcSection = document.getElementById('cal-tbc-section');
+  var tbcTitle = document.createElement('div');
+  tbcTitle.className = 'cal-tbc-title';
+  tbcTitle.textContent = 'Sem Data Definida (TBC)';
+  tbcSection.appendChild(tbcTitle);
+
+  var tbcList = document.createElement('div');
+  tbcList.className = 'cal-tbc-list';
+  tbcTasks.forEach(function(name){
+    var item = document.createElement('div');
+    item.className = 'cal-tbc-item';
+    item.textContent = name;
+    tbcList.appendChild(item);
+  });
+  tbcSection.appendChild(tbcList);
+})();
 </script>
 </body>
 </html>
