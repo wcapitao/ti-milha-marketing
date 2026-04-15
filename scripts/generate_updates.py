@@ -60,9 +60,14 @@ MONTHS_PT = {
 
 SYSTEM_PROMPT = (
     "És um assistente de síntese para a equipa de marketing do Ti Milha "
-    "(festival de música). Resumes conversas de WhatsApp em português de "
-    "Portugal. NUNCA cites mensagens diretamente. Respondes apenas com JSON "
-    "válido — sem texto antes ou depois — no formato exato pedido."
+    "(festival de música). Resumes conversas de WhatsApp em PORTUGUÊS "
+    "EUROPEU (português de Portugal, PT-PT) — NUNCA em português do Brasil. "
+    "Usa vocabulário e construções de Portugal: 'a equipa' (não 'o time'), "
+    "'ecrã' (não 'tela'), 'autocarro' (não 'ônibus'), estás/estamos "
+    "(não 'você está'), 'estás a fazer' (não 'está fazendo'), 'telemóvel' "
+    "(não 'celular'), 'ficheiro' (não 'arquivo'). NUNCA cites mensagens "
+    "diretamente. Respondes apenas com JSON válido — sem texto antes ou "
+    "depois — no formato exato pedido."
 )
 
 USER_PROMPT_TEMPLATE = """Resume a atividade da equipa Ti Milha na semana de {start} a {end}.
@@ -73,7 +78,8 @@ INPUT (mensagens WhatsApp, um bloco por chat):
 {wiki_block}
 
 INSTRUÇÕES:
-- Escreve em português de Portugal.
+- Escreve em PORTUGUÊS EUROPEU (PT-PT). NUNCA uses português do Brasil.
+- Integra também as notas curadas da Knowledge Base no resumo (traduz para PT-PT se estiverem em inglês).
 - NUNCA cites mensagens ou palavras diretas; parafraseia sempre.
 - Não menciones nomes de pessoas individualmente — usa "a equipa", "os designers", "os chefes", etc.
 - Agrupa em três categorias; cada item é UMA frase curta (≤ 20 palavras).
@@ -390,21 +396,6 @@ def _render_week_card(wk, is_open):
         parts.append('            </ul>')
         parts.append('          </div>')
 
-    if wk.get("wiki_bullets"):
-        empty = False
-        parts.append('          <div class="meeting-category">')
-        parts.append('            <div class="meeting-cat-title">')
-        parts.append('              <div class="meeting-cat-icon">&#128221;</div>')
-        parts.append('              <div class="meeting-cat-label">Knowledge Base</div>')
-        parts.append('            </div>')
-        parts.append('            <ul class="meeting-points">')
-        for w in sorted(wk["wiki_bullets"], key=lambda x: x["date"]):
-            parts.append(
-                f'              <li class="meeting-point info">{html.escape(w["text"])}</li>'
-            )
-        parts.append('            </ul>')
-        parts.append('          </div>')
-
     if empty:
         parts.append(
             '          <div style="padding:16px;color:var(--muted);font-size:13px;">'
@@ -464,8 +455,8 @@ def main():
         cached = cache.get(cache_key)
         if cached and cached.get("input_hash") == input_hash:
             summary = cached.get("summary")
-        elif wk_msgs:
-            print(f"Summarising {cache_key} ({len(wk_msgs)} messages)...")
+        elif wk_msgs or wk_wiki:
+            print(f"Summarising {cache_key} ({len(wk_msgs)} msgs, {len(wk_wiki)} KB notes)...")
             summary = summarise_week(year, week, wk_msgs, wk_wiki)
             if summary is not None:
                 cache[cache_key] = {"input_hash": input_hash, "summary": summary}
@@ -473,10 +464,7 @@ def main():
             elif cached:
                 summary = cached.get("summary")  # fall back to stale
         else:
-            # Week has only wiki bullets — no LLM needed; empty summary.
             summary = {"topicos": [], "decisoes": [], "acoes": []}
-            cache[cache_key] = {"input_hash": input_hash, "summary": summary}
-            cache_dirty = True
 
         start, end = week_bounds(year, week)
         chat_names = sorted({m["chat_name"] for m in wk_msgs})
