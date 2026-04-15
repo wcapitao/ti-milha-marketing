@@ -1,3 +1,4 @@
 logs/
 scripts/__pycache__/
+scripts/.updates-cache.json
 __pycache__/
