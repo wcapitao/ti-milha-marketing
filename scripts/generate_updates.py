@@ -82,7 +82,9 @@ INSTRUÇÕES:
 - Integra também as notas curadas da Knowledge Base no resumo (traduz para PT-PT se estiverem em inglês).
 - NUNCA cites mensagens ou palavras diretas; parafraseia sempre.
 - Não menciones nomes de pessoas individualmente — usa "a equipa", "os designers", "os chefes", etc.
-- Agrupa em três categorias; cada item é UMA frase curta (≤ 20 palavras).
+- Agrupa em três categorias. Cada item tem 2 a 4 frases (aprox. 40–80 palavras) com DETALHE CONCRETO: o quê exatamente, o contexto/porquê, e qualquer especificidade relevante (cores propostas, nomes de materiais, bandas, datas, valores, plataformas). Evita generalidades vagas como "identidade visual" sem dizer o que está em causa — diz *qual* o problema, *qual* a alternativa discutida, *qual* a razão.
+- Mantém cada item auto-contido (quem lê não tem outro contexto além do teu resumo).
+- Agrupa itens relacionados num único item mais detalhado, em vez de vários itens curtos e repetitivos.
 - Se uma categoria estiver vazia, devolve lista vazia.
 - Devolve APENAS JSON válido com este schema exato:
 
