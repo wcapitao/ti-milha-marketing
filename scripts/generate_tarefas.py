@@ -5,6 +5,9 @@ import json
 import os
 import urllib.request
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+LISBON = ZoneInfo("Europe/Lisbon")
 
 API_KEY = os.environ["TRELLO_API_KEY"]
 TOKEN = os.environ["TRELLO_TOKEN"]
@@ -69,15 +72,15 @@ def api_get(path, params=None):
 
 
 def format_date_pt(iso_str):
-    dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+    dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00")).astimezone(LISBON)
     return f"{dt.day:02d} {MONTHS_PT[dt.month]} {dt.year}"
 
 
 def date_class(iso_str):
     if not iso_str:
         return ""
-    dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
-    now = datetime.now(timezone.utc)
+    dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00")).astimezone(LISBON)
+    now = datetime.now(LISBON)
     diff = (dt - now).days
     if diff < 0:
         return "overdue"
@@ -240,7 +243,7 @@ def build_calendar_data(board_cards):
         activity_str = format_date_pt(last_activity) if last_activity else ""
 
         if due:
-            dt = datetime.fromisoformat(due.replace("Z", "+00:00"))
+            dt = datetime.fromisoformat(due.replace("Z", "+00:00")).astimezone(LISBON)
             date_str = f"{dt.year}-{dt.month:02d}-{dt.day:02d}"
             dated_tasks.append({
                 "name": esc(name),
