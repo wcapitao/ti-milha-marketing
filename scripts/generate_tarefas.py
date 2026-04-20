@@ -203,9 +203,9 @@ def esc(text):
 
 
 def get_nav_logo():
-    """Read logo from reunioes.html."""
+    """Read logo data URI from index.html."""
     try:
-        with open("reunioes.html", "r") as f:
+        with open("index.html", "r") as f:
             content = f.read()
         start = content.find('class="logo">')
         if start == -1:
@@ -603,7 +603,7 @@ def generate_html():
     <img src="{logo_src}" alt="Ti Milha" />
   </a>
   <ul class="nav-links">
-    <li><a href="reunioes.html">Reuniões</a></li>
+    <li><a href="updates.html">Updates</a></li>
     <li><a href="estrategia.html">Estratégia</a></li>
     <li><a href="cartaz.html">Cartaz</a></li>
     <li><a href="orcamento.html">Orçamento</a></li>
